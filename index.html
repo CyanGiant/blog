@@ -1,1 +1,93 @@
-hello
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>James' Blog</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="css/blog.css" media="screen" title="no title" charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script id="blogs-tpl" type="text/x-handlebars-template">
+      {{#each blog}}
+      <div class="blog-post">
+        <h2 class="blog-post-title"><a href="#">{{title}}</a></h2>
+        <p class="blog-post-meta">At time by an author</p>
+        <div>{{{content}}}</div>
+      </div>
+      {{/each}}
+    </script>
+    <script src="js/bootstrap.min.js" charset="utf-8"></script>
+    <script src="js/blog.js" charset="utf-8"></script>
+    <script src="//www.parsecdn.com/js/parse-1.5.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js" charset="utf-8"></script>
+
+  </head>
+  <body>
+    <div class="blog-masthead">
+      <div class="container">
+        <nav class="blog-nav">
+          <a class="blog-nav-item active" href='index.html'>HOME</a>
+          <a class="blog-nav-item" href="admin.html">ADMIN</a>
+          <a class="blog-nav-item" href="#">PAST ARTICLES</a>
+          <a class="blog-nav-item" href="about.html">ABOUT ME</a>
+        </nav>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="blog-header">
+        <h2 class="blog-title">The View From Up Here</h2>
+        <p class="lead blog-description">A larger than life take on small things: Projects, Ramblings and Things better off left unsaid.</p>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8 blog-main">
+          <div class="main-container">
+
+          </div>
+
+          <!-- <nav>
+            <ul class="pager">
+              <li><a href="#">Previous</a></li>
+              <li><a href="#">Next</a></li>
+            </ul>
+          </nav> -->
+
+        </div><!--End Main Blog-->
+
+        <!-- SIDEBAR -->
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module sidebar-module-inset">
+            <h4>About</h4>
+            <p>Ramblings from my mind. Including, <em>but not limited to</em>: school, work, food, music, soccer. I like these things.</p>
+          </div>
+
+          <div class="sidebar-module">
+            <h4>THE PAST</h4>
+            <ol class='list-unstyled'>
+              <li><a href="#">August 2015</a></li>
+            </ol>
+          </div>
+
+          <div class="sidebar-module">
+            <h4>Find Me</h4>
+            <ol class="list-unstyled">
+              <li><a href="https://twitter.com/TheCyanGiant">Twitter</a></li>
+              <li><a href="https://github.com/CyanGiant">Github</a></li>
+            </ol>
+          </div>
+
+        </div> <!--end sidebar-->
+      </div><!-- end row-->
+    </div><!--end container-->
+
+    <footer class="blog-footer">
+      <p> Blog template built for <a href="http://getbootstrap.com">Bootstrap</a> by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+      <p>
+        <a href="index.html">Back to top</a>
+      </p>
+      </p>
+    </footer>
+
+
+  </body>
+</html>
