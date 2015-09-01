@@ -61,15 +61,66 @@ $(function() {
 
         WelcomeView = Parse.View.extend({
           template: Handlebars.compile($('#welcome-tpl').html()),
+          events:{
+            'click .add-blog': 'add'
+          },
+          add: function(){
+            var addBlogView = new AddBlogView();
+            addBlogView.render();
+            $('.main-container').html(addBlogView.el);
+          },
           render: function(){
             var attributes = this.model.toJSON();
             this.$el.html(this.template(attributes));
+            this.$el.html(this.template()).find('textarea').wysihtml5();
           }
         });
 
         var loginView = new LoginView();
         loginView.render();
         $('.main-container').html(loginView.el);
-  // });
+
+        var AddBlogView = Parse.View.extend({
+          template: Handlebars.compile($('#add-tpl').html()),
+          events:{
+            'submit .form-add': 'submit'
+          },
+          submit: function(e){
+            //prevent default submit event
+            e.preventDefault();
+            //grab form and put into data object
+            var data = $(e.target).serializeArray(),
+            //create new Blog instance
+              blog = new Blog();
+            // Call .create
+            blog.create(data[0].value, $('textarea').val());
+          },
+          render: function(){
+            this.$el.html(this.template());
+            this.$el.html(this.template()).find('textarea').wysihtml5();
+          }
+        });
+
+        var Blog = Parse.Object.extend('Blog', {
+          create: function(Title, Content){
+            this.save({
+              'Title': Title,
+              'Content': Content,
+              'author': Parse.User.current(),
+              'authorName': Parse.User.current().get('username'),
+              'time': new Date().toDateString()
+            }, {
+              success: function(blog){
+                alert('You added a new blog: ' + blog.get('Title'));
+              },
+              error: function(blog, error) {
+                console.log(blog);
+                console.log(error);
+              }
+            });
+          }
+        });
+
+
 
 });
