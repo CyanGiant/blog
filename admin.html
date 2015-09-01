@@ -9,6 +9,35 @@
     <script src="js/wysihtml5-0.3.0.min.js" charset="utf-8"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/bootstrap3-wysihtml5.js" charset="utf-8"></script>
+
+    <!-- Blogs Admin Template -->
+    <script id="blogs-admin-tpl" type "text/x-handlebars-template">
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each blog}}
+          <tr>
+            <td><a href="#" class="app-link">{{Title}}</a></td>
+            <td>{{authorName}}</td>
+            <td>{{time}}</td>
+            <td>
+              <a href="#" class="app-link">Edit</a> |
+              <a href="#" class="app-link">Delete</a>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </script><b>
+    </b>
+
     <!-- Blogs Template -->
     <script id="blogs-tpl" type="text/x-handlebars-template">
       {{#each blog}}

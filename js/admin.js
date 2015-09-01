@@ -4,27 +4,6 @@ $(function() {
 
     Parse.initialize("Ea78s9QiTCskbiLZirAyhq591UjlQ6vXJYNm81G9", "CFwJjWiD3P7MBZbRYQiTNofDoa5VJVzp9YRlog67");
 
-    // $('.form-signin').on('submit', function(e) {
-    //
-    // // Prevent Default Submit Event
-    // e.preventDefault();
-    //
-    // // Get data from the form and put them into variables
-    // var data = $(this).serializeArray(),
-    //     username = data[0].value,
-    //     password = data[1].value;
-    //
-    // // Call Parse Login function with those variables
-    // Parse.User.logIn(username, password, {
-    //     // If the username and password matches
-    //     success: function(user) {
-    //         alert('Welcome!');
-    //     },
-    //     // If there is an error
-    //     error: function(user, error) {
-    //         console.log(error);
-    //     }
-    // });
     var LoginView = Parse.View.extend({
           template: Handlebars.compile($('#login-tpl').html()),
           events: {
@@ -73,6 +52,17 @@ $(function() {
             var attributes = this.model.toJSON();
             this.$el.html(this.template(attributes));
             this.$el.html(this.template()).find('textarea').wysihtml5();
+            var blogs = new Blogs();
+            blogs.fetch({
+              success: function(blogs) {
+                var blogsAdminView = new BlogsAdminView({ collection: blogs });
+                blogsAdminView.render();
+                $('.main-container').append(blogsAdminView.el);
+              },
+              error: function(blogs, error) {
+                console.log(error);
+              }
+            });
           }
         });
 
@@ -118,6 +108,16 @@ $(function() {
                 console.log(error);
               }
             });
+          }
+        });
+        var Blogs = Parse.Collection.extend({
+          model: Blog
+        }),
+        BlogsAdminView = Parse.View.extend({
+          template: Handlebars.compile($('#blogs-admin-tpl').html()),
+          render: function() {
+            var collection = { blog: this.collection.toJSON() };
+            this.$el.html(this.template(collection));
           }
         });
 
