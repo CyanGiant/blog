@@ -72,7 +72,7 @@ $(function() {
         // loginView.render();
         // $('.main-container').html(loginView.el);
 
-        var AddBlogView = Parse.View.extend({
+        AddBlogView = Parse.View.extend({
           template: Handlebars.compile($('#add-tpl').html()),
           events:{
             'submit .form-add': 'submit'
@@ -93,6 +93,25 @@ $(function() {
           }
         });
 
+        EditBlogView = Parse.View.extend({
+          template: Handlebars.compile($('#edit-tpl').html()),
+          events: {
+            'submit .form-edit': 'submit'
+          },
+          submit: function(e) {
+            e.preventDefault();
+            var data = $(e.target).serializeArray();
+            this.model.update(data[0].value, $('textarea').val());
+
+          },
+          render: function(){
+            var attributes = this.model.toJSON();
+            this.$el.html(this.template(attributes));
+          }
+
+        });
+
+
         var Blog = Parse.Object.extend('Blog', {
           create: function(Title, Content){
             this.save({
@@ -110,6 +129,20 @@ $(function() {
                 console.log(error);
               }
             });
+          },
+          update: function(Title, Content) {
+            this.set({
+              'Title': Title,
+              'Content': Content
+            }).save(null, {
+              success: function(blog) {
+                alert('The blog ' + blog.get('Title') + ' has been saved!');
+              },
+              error: function(blog, error) {
+                console.log(blog);
+                console.log(error);
+              }
+            });
           }
         });
         var Blogs = Parse.Collection.extend({
@@ -120,7 +153,16 @@ $(function() {
           render: function() {
             var collection = { blog: this.collection.toJSON() };
             this.$el.html(this.template(collection));
+          },
+          events: {
+            'click .app-edit': 'edit'
+          },
+          edit: function(e){
+            e.preventDefault();
+            var href = $(e.target).attr('href');
+            blogRouter.navigate(href, {trigger: true });
           }
+
         });
         var BlogRouter = Parse.Router.extend({
 
@@ -148,7 +190,7 @@ $(function() {
             'admin'    : 'admin',
             'login'    : 'login',
             'add'      : 'add',
-            'edit/:url': 'edit'
+            'edit/:id' : 'edit'
           },
 
           admin: function() {
@@ -180,8 +222,20 @@ $(function() {
             $('.main-container').html(loginView.el);
           },
           // add  : function() {},
-          edit : function(url) {},
+          edit : function(id) {
+            var query = new Parse.Query(Blog);
 
+            query.get(id, {
+              success: function(blog) {
+                var editBlogView = new EditBlogView({ model: blog });
+                editBlogView.render();
+                $('.main-container').html(editBlogView.el);
+              },
+              error: function(blog, error) {
+                console.log(error);
+              }
+            });
+          }
         }),
         blogRouter = new BlogRouter();
 

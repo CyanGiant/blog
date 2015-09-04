@@ -28,7 +28,7 @@
             <td>{{authorName}}</td>
             <td>{{time}}</td>
             <td>
-              <a href="#" class="app-link">Edit</a> |
+              <a href="edit/{{objectId}}" class="app-link app-edit">Edit</a> |
               <a href="#" class="app-link">Delete</a>
             </td>
           </tr>
@@ -60,6 +60,22 @@
         <div class="form-group">
           <label for="Content">Content</label>
           <textarea name="Content" class="form-control" rows="20"></textarea>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+      </form>
+    </script>
+
+    <!-- Edit Blog Template -->
+    <script type="text/template" id="edit-tpl">
+      <h2>Edit Blog</h2>
+      <form class="form-edit" role="form">
+        <div class="form-group">
+          <label for="Title">Title</label>
+          <input type="text" name="Title" class="form-control" id="Title" value="{{Title}}"></input>
+        </div>
+        <div class="form-group">
+          <label for="Content">Content</label>
+          <textarea name="Content" class="form-control" rows="20">{{{Content}}}</textarea>
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
       </form>
